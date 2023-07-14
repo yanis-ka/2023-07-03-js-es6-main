@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation JavaScript ES6</title>
+    <link rel="stylesheet" href="../css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/scripts.js"></script>
+    <script>
+        loaded(function(){
+            const pModule = qA('p[data-module]');
+            //console.log(pModule);
+            pModule.forEach(element => {
+                const module = element.dataset.module;
+                //console.log(module);
+                switch(module){
+                    case 'color':
+                        // code a appliquer
+                        const color = element.dataset.color  || '#ff0000';
+                        element.addEventListener('mouseover', function(){
+                            this.style.setProperty('color', color);
+                        });
+                        element.addEventListener('mouseleave', function(){
+                            this.style.removeProperty('color');
+                        });
+                    break;
+                    case 'font':
+                    case 'magie':
+                        // code a appliquer
+                        /* mini exo : écrire la partie pour font ou magie */
+                        const weight = element.dataset.weight  || 'lighter';
+                        element.addEventListener('mouseover', function(){
+                            this.style.setProperty('font-weight', weight);
+                        });
+                        element.addEventListener('mouseleave', function(){
+                            this.style.removeProperty('font-weight');
+                        });
+                    break;
+                    case 'after':
+                    default :
+                        // code si aucun des cas supérieur ne convient
+                }
+            });
+
+            /*
+            pointeur ligne - colonne sur un tableau
+
+            1 - récupérer la collection des td ayant les attributs data-column et data-line
+            2 - abonner chaque élément de la collection aux évènements mouseover et mouseleave
+
+            3 - au mouseover :
+                3.1 - repérer la ligne du td (le tr parent)
+                    3.1.1 - mettre la couleur de fond de la ligne rgba(255, 0, 0, 0.5)
+                3.2 - repérer les td de la collection ayant le même data-column
+                    3.2.1 - leur ajouter la couleur de fond rgba(255, 0, 0, 0.5)
+            
+            4 - au mouseout
+                4.1 - virer toutes les couleurs de background
+
+            */
+
+            /*
+            créer constante tdPointeur qui reçoit la collection d'élément possédant les attributs data-column et data-line
+            */
+
+            const tdPointeur = qA('td[data-line][data-column]');
+            //console.log(tdPointeur);
+
+            const xValue = q('#xValue');
+            const yValue = q('#yValue');
+
+            tdPointeur.forEach(function(element){
+                const column = element.dataset.column;
+                element.addEventListener('mouseover', function(){
+                    element.parentElement.style.background = 'rgba(255, 0, 0, 0.5)';
+                    /* maintenant les colonnes */
+                    qA(`td[data-line][data-column="${column}"]`).forEach(function(td){
+                        td.style.background = 'rgba(255, 0, 0, 0.5)';
+                    });
+                    xValue.value = element.dataset.column;
+                    yValue.value = element.dataset.line;
+                });
+                element.addEventListener('mouseleave', function(){
+                    element.parentElement.style.removeProperty('background');
+                    /* maintenant les colonnes */
+                    qA(`td[data-line][data-column="${column}"]`).forEach(function(td){
+                        td.style.removeProperty('background');
+                    });
+                    xValue.value = 0;
+                    yValue.value = 0;
+                });
+            });
+
+            /* une grille de puissance 4 */
+
+            let colorNow = 'pionRouge';
+            qA('#p4 th').forEach(function(th){
+                let colonne = 0;
+                th.addEventListener('click', function(){
+                    colonne = this.dataset.col;
+                    for(let i = 6; i > 0; i = i - 1){
+                        const cell = q(`td[data-col="${colonne}"][data-row="${i}"]`);
+                        if( !cell.classList.contains('pionRouge') && !cell.classList.contains('pionJaune')){
+                            cell.classList.add(colorNow);
+                            colorNow = (colorNow === 'pionRouge')? 'pionJaune': 'pionRouge' ;
+                            break;
+                        }
+                    }
+                });
+            })            
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="../">
+                <h1>Formation JavaScript ES6</h1>
+            </a>
+            <i class="bi bi-list toggle-menu" style="font-size: 2rem;color: white;" data-target="#navPrinc"></i>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <div class="slide-menu" id="navPrinc">
+                <ul class="navigation">
+                    <li>
+                        <details>
+                            <summary>
+                                Introduction
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../introduction/index.html" title="premiers scripts JS">Intro JS</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/tableaux.html" title="Les tableaux JS JS">Les tableaux</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/fonctions.html" title="Les fonctions JS">Les fonctions</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/destructuration.html" title="La destructuration">La
+                                        destructuration</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/storage.html" title="Storage">Storage</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                Le DOM
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../dom/index.html" title="Le DOM : Document Object Model">DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dom.html" title="Le DOM : Créer dans le DOM">Créer dans le DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/css.html" title="Le DOM : CSS">DOM & CSS</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dataset.html" title="Le DOM : Les dataset">Dataset</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                AJAX
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../ajax/index.html" title="AJAX : xhr">XHR</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/promesses.html" title="AJAX : Promesses">Promesses</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/bdd.html" title="AJAX : Fetch">Fetch</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/fetchjson.html" title="AJAX : fetch & JSON">JSON</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                POO
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../poo/index.html" title="POO : Programmation Orientée Objet">POO</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/collection.html" title="POO : Les collections">Collections</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/module.html" title="POO : modules">Modules</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/class.html" title="POO : classes">Classes</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container">
+        <section class="row">
+            <article class="col-100">
+                <h2 data-title="Les attributs data">
+                    Les attributs data - (dataset)
+                </h2>
+                <p>
+                    Les attributs data- sont des attributs HTML dynamiques.
+                    Ce qui est dynamique : leurs noms et les valeurs qu'ils possèdent.
+                    Pour les utiliser, on crée dans la balise un attribut avec la forme suivante :
+                    <code>data-*="..."</code>, * sera le nom du dataset, ... sa valeur.
+                    par exemple <br />
+                    <code>
+                        &lt;img data-over="../images/test.png" src="../images/test-img.png" data-test="test" /&gt;
+                    </code><br />
+                    pour atteindre ce dataset : <br />
+                    <code>
+                        let urlOver = document.querySelector('img[data-over][data-test="test"]').dataset.over;
+                    </code>
+                </p>
+            </article>
+            <article class="col-50">
+                <h3>
+                    Utiliser un switch
+                </h3>
+                <hr />
+                <p data-module="color">
+                    Lorem ipsum dolor sit amet,
+                    consectetur adipisicing elit.
+                    Sed, quidem! Quod sapiente consequatur
+                    eius in officia ducimus nisi, totam quo
+                    vitae voluptate, quasi rerum! Debitis
+                    aliquid aliquam et suscipit ab!
+                </p>
+                <p data-module="color" data-color="#09f">
+                    Lorem ipsum dolor sit amet,
+                    consectetur adipisicing elit.
+                    Sed, quidem! Quod sapiente consequatur
+                    eius in officia ducimus nisi, totam quo
+                    vitae voluptate, quasi rerum! Debitis
+                    aliquid aliquam et suscipit ab!
+                </p>
+                <p data-module="color" data-color="orange">
+                    Lorem ipsum dolor sit amet,
+                    consectetur adipisicing elit.
+                    Sed, quidem! Quod sapiente consequatur
+                    eius in officia ducimus nisi, totam quo
+                    vitae voluptate, quasi rerum! Debitis
+                    aliquid aliquam et suscipit ab!
+                </p>
+                <p data-module="font" data-weight="bold">
+                    Lorem ipsum dolor sit amet,
+                    consectetur adipisicing elit.
+                    Sed, quidem! Quod sapiente consequatur
+                    eius in officia ducimus nisi, totam quo
+                    vitae voluptate, quasi rerum! Debitis
+                    aliquid aliquam et suscipit ab!
+                </p>
+                <p data-module="magie">
+                    Lorem ipsum dolor sit amet,
+                    consectetur adipisicing &nbsp;elit.
+                    Sed, quidem! Quod sapiente consequatur
+                    eius in officia ducimus nisi, totam quo
+                    vitae voluptate, quasi rerum! Debitis
+                    aliquid aliquam et suscipit ab!
+                </p>
+                <p data-module="after">
+                    Lorem ipsum dolor sit amet,
+                    consectetur adipisicing elit.
+                    Sed, quidem! Quod sapiente consequatur
+                    eius in officia ducimus nisi, totam quo
+                    vitae voluptate, quasi rerum! Debitis
+                    aliquid aliquam et suscipit ab!
+                </p>
+            </article>
+            <article class="col-50">
+                <h3>Créer un menu "glissant"</h3>
+                <hr />
+                <p>
+                    <button class="toggle-menu" data-target="#testSlide">
+                        Afficher le menu glissant
+                    </button>
+                </p>
+                <nav class="slide-menu" id="testSlide">
+                    <ul>
+                        <li><a href="#">lien</a></li>
+                        <li><a href="#">lien</a></li>
+                        <li><a href="#">lien</a></li>
+                    </ul>
+                </nav>
+                <hr />
+                <p>
+                    <button class="toggle-menu" data-target="#testSlide2">
+                        Afficher le menu glissant
+                    </button>
+                </p>
+                <nav class="slide-menu" id="testSlide2">
+                    <ul>
+                        <li><a href="#">lien</a></li>
+                        <li><a href="#">lien</a></li>
+                        <li><a href="#">lien</a></li>
+                    </ul>
+                </nav>
+            </article>
+            <article class="col-50">
+                <h3>Les datasets et l'interactivité</h3>
+                <hr />
+                <p>
+                    Coordonnées : <span id="xy">x : &nbsp; - y : &nbsp;</span>
+                </p>
+
+                <p>
+                    <label>X : </label><input id="xValue" type="range" min="0" max="4" step="1" value="0" /><br />
+                    <label>y : </label><input id="yValue" type="range" min="0" max="4" step="1" value="0" />
+                </p>
+
+                <table id="coord" class="table" style="width: 300px;">
+                    <tr>
+                        <td data-column="0" data-line="0">0 - 0</td>
+                        <td data-column="1" data-line="0">1 - 0</td>
+                        <td data-column="2" data-line="0">2 - 0</td>
+                        <td data-column="3" data-line="0">3 - 0</td>
+                        <td data-column="4" data-line="0">4 - 0</td>
+                    </tr>
+                    <tr>
+                        <td data-column="0" data-line="1">0 - 1</td>
+                        <td data-column="1" data-line="1">1 - 1</td>
+                        <td data-column="2" data-line="1">2 - 1</td>
+                        <td data-column="3" data-line="1">3 - 1</td>
+                        <td data-column="4" data-line="1">4 - 1</td>
+                    </tr>
+                    <tr>
+                        <td data-column="0" data-line="2">0 - 2</td>
+                        <td data-column="1" data-line="2">1 - 2</td>
+                        <td data-column="2" data-line="2">2 - 2</td>
+                        <td data-column="3" data-line="2">3 - 2</td>
+                        <td data-column="4" data-line="2">4 - 2</td>
+                    </tr>
+                    <tr>
+                        <td data-column="0" data-line="3">0 - 3</td>
+                        <td data-column="1" data-line="3">1 - 3</td>
+                        <td data-column="2" data-line="3">2 - 3</td>
+                        <td data-column="3" data-line="3">3 - 3</td>
+                        <td data-column="4" data-line="3">4 - 3</td>
+                    </tr>
+                    <tr>
+                        <td data-column="0" data-line="4">0 - 4</td>
+                        <td data-column="1" data-line="4">1 - 4</td>
+                        <td data-column="2" data-line="4">2 - 4</td>
+                        <td data-column="3" data-line="4">3 - 4</td>
+                        <td data-column="4" data-line="4">4 - 4</td>
+                    </tr>
+                </table>
+                <h3>Grille de puissance 4</h3>
+                <table id="p4" class="table">
+                    <thead>
+                        <tr>
+                            <th data-col="1" class="text-center"> &darr; </th>
+                            <th data-col="2" class="text-center"> &darr; </th>
+                            <th data-col="3" class="text-center"> &darr; </th>
+                            <th data-col="4" class="text-center"> &darr; </th>
+                            <th data-col="5" class="text-center"> &darr; </th>
+                            <th data-col="6" class="text-center"> &darr; </th>
+                            <th data-col="7" class="text-center"> &darr; </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-col="1" data-row="1">&nbsp;</td>
+                            <td data-col="2" data-row="1">&nbsp;</td>
+                            <td data-col="3" data-row="1">&nbsp;</td>
+                            <td data-col="4" data-row="1">&nbsp;</td>
+                            <td data-col="5" data-row="1">&nbsp;</td>
+                            <td data-col="6" data-row="1">&nbsp;</td>
+                            <td data-col="7" data-row="1">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td data-col="1" data-row="2">&nbsp;</td>
+                            <td data-col="2" data-row="2">&nbsp;</td>
+                            <td data-col="3" data-row="2">&nbsp;</td>
+                            <td data-col="4" data-row="2">&nbsp;</td>
+                            <td data-col="5" data-row="2">&nbsp;</td>
+                            <td data-col="6" data-row="2">&nbsp;</td>
+                            <td data-col="7" data-row="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td data-col="1" data-row="3">&nbsp;</td>
+                            <td data-col="2" data-row="3">&nbsp;</td>
+                            <td data-col="3" data-row="3">&nbsp;</td>
+                            <td data-col="4" data-row="3">&nbsp;</td>
+                            <td data-col="5" data-row="3">&nbsp;</td>
+                            <td data-col="6" data-row="3">&nbsp;</td>
+                            <td data-col="7" data-row="3">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td data-col="1" data-row="4">&nbsp;</td>
+                            <td data-col="2" data-row="4">&nbsp;</td>
+                            <td data-col="3" data-row="4">&nbsp;</td>
+                            <td data-col="4" data-row="4">&nbsp;</td>
+                            <td data-col="5" data-row="4">&nbsp;</td>
+                            <td data-col="6" data-row="4">&nbsp;</td>
+                            <td data-col="7" data-row="4">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td data-col="1" data-row="5">&nbsp;</td>
+                            <td data-col="2" data-row="5">&nbsp;</td>
+                            <td data-col="3" data-row="5">&nbsp;</td>
+                            <td data-col="4" data-row="5">&nbsp;</td>
+                            <td data-col="5" data-row="5">&nbsp;</td>
+                            <td data-col="6" data-row="5">&nbsp;</td>
+                            <td data-col="7" data-row="5">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td data-col="1" data-row="6">&nbsp;</td>
+                            <td data-col="2" data-row="6">&nbsp;</td>
+                            <td data-col="3" data-row="6">&nbsp;</td>
+                            <td data-col="4" data-row="6">&nbsp;</td>
+                            <td data-col="5" data-row="6">&nbsp;</td>
+                            <td data-col="6" data-row="6">&nbsp;</td>
+                            <td data-col="7" data-row="6">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            &copy; DAWAN - 07-2023
+        </div>
+    </footer>
+</body>
+</html>

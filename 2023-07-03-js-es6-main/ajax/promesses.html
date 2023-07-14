@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation JavaScript ES6</title>
+    <link rel="stylesheet" href="../css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/scripts.js"></script>
+    <script>
+        /*
+            Les promesses ou promise = créer une fonction asynchrone dont l'éxécution ne stoppe pas ou ne "fige" pas l'utilisation de la page
+
+            Une promesse renvoie deux type de résultat : 
+            Soit la demande abouti on a se qu'on appelle un         "resolve()"
+            Soit la demande n'abouti pas on a se qu'on appelle un   "reject()"
+        */
+
+        //console.log( Math.floor(Math.random()*3 + 1) );
+
+        function traitementLong(){
+            /* 
+            la fonction qui a un traitement long doit lancer ce traitement en utilisant une instance de promesse : 
+            il donne la promesse de finir, quel que soit le résultat, bon ou mauvais, du traitement */
+
+            /* pour simuler le cas ou on a un rejat, on va lancer un nombre entre 1 et 3, si c'est 2, c'est un rejet */
+            const randError = Math.floor(Math.random()*3 + 1);
+            console.log(randError);
+            const data = 'Le formateur aime bien les jeux de rôle ';
+            return new Promise(function(resolve, reject){
+                setTimeout(function(){
+                    if(randError !== 2){
+                        resolve(data);
+                    }else{
+                        reject('L\'information n\'est pas disponible ');
+                    }
+                }, 3000);
+            });
+        }
+
+        async function asyncCall(){
+            const result = await traitementLong();
+            return result;
+        }
+
+        loaded(function(){
+            let data = '';
+    
+            q('button.read').addEventListener('click', function(){
+                asyncCall()
+                .then( function(flux){
+                    console.log(flux);
+                    data = data + flux;
+                })
+                .catch(function(erreur){
+                    console.log(erreur);
+                    data = data + erreur;
+                })
+                .finally(function(){
+                    console.log('fonction asynchrone terminée');
+                    data = data + 'fonction asynchrone terminée';
+                    q('#result').innerHTML = data;
+                });
+            });
+        });
+
+
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="../">
+                <h1>Formation JavaScript ES6</h1>
+            </a>
+            <i class="bi bi-list toggle-menu" style="font-size: 2rem;color: white;" data-target="#navPrinc"></i>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <div class="slide-menu" id="navPrinc">
+                <ul class="navigation">
+                    <li>
+                        <details>
+                            <summary>
+                                Introduction
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../introduction/index.html" title="premiers scripts JS">Intro JS</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/tableaux.html" title="Les tableaux JS JS">Les tableaux</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/fonctions.html" title="Les fonctions JS">Les fonctions</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/destructuration.html" title="La destructuration">La
+                                        destructuration</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/storage.html" title="Storage">Storage</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                Le DOM
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../dom/index.html" title="Le DOM : Document Object Model">DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dom.html" title="Le DOM : Créer dans le DOM">Créer dans le DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/css.html" title="Le DOM : CSS">DOM & CSS</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dataset.html" title="Le DOM : Les dataset">Dataset</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                AJAX
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../ajax/index.html" title="AJAX : xhr">XHR</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/promesses.html" title="AJAX : Promesses">Promesses</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/bdd.html" title="AJAX : Fetch">Fetch</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/fetchjson.html" title="AJAX : fetch & JSON">JSON</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                POO
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../poo/index.html" title="POO : Programmation Orientée Objet">POO</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/collection.html" title="POO : Les collections">Collections</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/module.html" title="POO : modules">Modules</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/class.html" title="POO : classes">Classes</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container">
+        <section class="row">
+            <article class="col-100">
+                <h2>
+                        Les promesses (promise)
+                    </h2>
+                <hr />
+                <p>
+                    <button class="read">
+                        Récupérer un info
+                    </button>
+                </p>
+                <div id="result">
+
+                </div>
+                <p>
+                    <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Promise"
+                        target="_blank">
+                        Documentation complémentaire sur la promesse
+                    </a>
+                </p>
+            </article>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            &copy; DAWAN - 07-2023
+        </div>
+    </footer>
+</body>
+
+</html>

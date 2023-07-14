@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation JavaScript ES6</title>
+    <link rel="stylesheet" href="../css/bootstrap-icons.css" />
+    <script src="../js/scripts.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script>
+        // Commentaire en une ligne
+        /* 
+        Commentaire en bloc
+        */
+        var prenom = 'Jean';
+        console.log(prenom);
+        console.log(typeof prenom);
+
+        let nom = 'Neige';
+        console.log(typeof nom);
+
+        const laPause = 'CAFÉ ?';
+
+        nom = 35;
+        console.log(typeof nom);
+
+        nom = nom + 1; // affiche 36
+        console.log(nom, typeof nom);
+        nom = nom + '2.5'; // affiche 362.5
+        console.log(nom, typeof nom);
+
+        const LANGFR = 'FR-fr';
+        const LANGUK = 'EN-en';
+        const LANGUS = 'EN-us';
+        const POUND = '£';
+        const DOLLAR = '$';
+        const EURO = '€';
+
+        /**
+         * 
+         * Types
+         * [primitif]
+         * number           => nombre (entier, à virgule)
+         * bool             => Booléen true ou false
+         * 
+         * [référence]
+         * String           => chaîne de caractère
+         * Array            => tableau de données
+         * Object           => object
+         * JSON             => JavaScript Object Notation
+         * 
+        */
+
+        /**
+         * Opérateurs
+         * 
+         * Mathématiques
+         * 
+         * +    => addition (mais aussi la concaténation pour les chaîne de caractère) 'toto' + 'tata' => 'tototata';
+         *                      'nicolas a ' + age + ' ans' => 'nicolas a 43 ans'
+         *                      `nicolas a ${age} ans`
+         * -    => soustraction
+         * /    => division
+         * %    => modulo : renvoi le reste d'une division entière 5%2 => 1
+         * *    => multiplication
+         * **   => Opérateur puissance remplace Math.pow()
+         *      => 2 exposant 3 Math.pow(2,3) <=> 2**3
+         * ++   => incrémentation
+         * --   => décrémentation
+         * 
+        */
+
+        let cpt = 0;
+
+        cpt = cpt + 1;      // ajoute 1 à cpt donc 1
+        console.log(cpt);   // affiche 1
+        cpt++;              // ajoute 1 à cpt donc 2
+        console.log(cpt);   // affiche 2
+        console.log(cpt++); // affiche 2 puis passe cpt à 3
+        console.log(cpt);   // affiche 3
+        console.log(++cpt); // ajoute 1 à cpt puis affiche cpt 4
+
+        /**
+         * Logique
+         * 
+         * && (ET)
+         *          a && b => a est vrai et b est vrai  =>  vrai
+         *          a && b => a est vrai et b est faux  =>  faux
+         *          a && b => a est faux et b est vrai  =>  faux
+         *          a && b => a est faux et b est faux  =>  faux
+         * 
+         *  || (OU)
+         *          a || b => a est vrai et b est vrai  =>  vrai
+         *          a || b => a est vrai et b est faux  =>  vrai
+         *          a || b => a est faux et b est vrai  =>  vrai
+         *          a || b => a est faux et b est faux  =>  faux
+         * 
+         * ! (NON)  
+         *          !a  => si a ext vrai, !a => faux
+         *          !a  => si a est faux, !a => vrai
+         * 
+         * ^ (NON OU ou XOR) : OU EXCLUSIF BINAIRE
+         *          a ^ b => a est vrai et b est vrai  =>  faux
+         *          a ^ b => a est vrai et b est faux  =>  vrai
+         *          a ^ b => a est faux et b est vrai  =>  vrai
+         *          a ^ b => a est faux et b est faux  =>  faux
+         * 
+        */
+
+        /*
+        créer deux variables nombre et aficher
+            leur addition
+            leur soustraction
+            leur multiplication
+                 division
+                 le modulo
+            var1 puissance var2
+        */
+
+        const a = 42;
+        console.log(a);
+        const b = 66;
+        console.log(b);
+        console.log(a + b);
+        console.log(` ${a} + ${b} = ${a + b} `);
+        /* 
+        
+        `toto` => 'toto'
+
+        */
+        console.log(a - b);
+        console.log(a * b);
+        console.log(a / b);
+        console.log(a % b);
+        console.log(a ** b);
+
+        console.log(' si on veux utiliser l\'apostrophe il faut l\'échapper en utilisant \\ ');
+
+        /**
+         * 
+         * Opérateurs de comparaison
+         * 
+         * < strictement inférieur à
+         * >    "        supérieur à
+         * <= inférieur ou égal
+         * >= supérieur ou égal
+         * 
+         * == égalité non stricte (compare la valeur)
+         * === égalité stricte (compare valeur et type)
+         * 
+         * '2' == 2 => vrai
+         * '2' === 2 => faux
+         * 
+         * !=  différence non stricte (compare la valeur)
+         * !==  différence stricte (compare valeur et type)
+         * 
+         * '2' != 2 => faux
+         * '2' !== 2 => vrai
+         * 
+        */
+
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="../">
+                <h1>Formation JavaScript ES6</h1>
+            </a>
+            <i class="bi bi-list toggle-menu" style="font-size: 2rem;color: white;" data-target="#navPrinc"></i>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <div class="slide-menu" id="navPrinc">
+                <ul class="navigation">
+                    <li>
+                        <details>
+                            <summary>
+                                Introduction
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../introduction/index.html" title="premiers scripts JS">Intro JS</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/tableaux.html" title="Les tableaux JS JS">Les tableaux</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/fonctions.html" title="Les fonctions JS">Les fonctions</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/destructuration.html" title="La destructuration">La destructuration</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/storage.html" title="Storage">Storage</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                Le DOM
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../dom/index.html" title="Le DOM : Document Object Model">DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dom.html" title="Le DOM : Créer dans le DOM">Créer dans le DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/css.html" title="Le DOM : CSS">DOM & CSS</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dataset.html" title="Le DOM : Les dataset">Dataset</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                AJAX
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../ajax/index.html" title="AJAX : xhr">XHR</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/promesses.html" title="AJAX : Promesses">Promesses</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/bdd.html" title="AJAX : Fetch">Fetch</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/fetchjson.html" title="AJAX : fetch & JSON">JSON</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                POO
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../poo/index.html" title="POO : Programmation Orientée Objet">POO</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/collection.html" title="POO : Les collections">Collections</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/module.html" title="POO : modules">Modules</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/class.html" title="POO : classes">Classes</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container">
+        <article>
+            <h3>Ecmascript</h3>
+            <p>
+                Ecmascript (es) est une norme sur laquelle s'appuie JS. (ActionScript => flash, TypeScript).
+            </p>
+            <p>
+                La dernière norme ecmascript es7 (2017, très peu de différences avec es6)
+            </p>
+            <ul>
+                <li>es1 - Juin 1997</li>
+                <li>es2 - Juin 1998</li>
+                <li>es2 - Décembre 1999</li>
+                <li>es4 - version abandonnée</li>
+                <li>es5 - Décembre 2009</li>
+                <li>es6 - Juin 2015</li>
+                <li>es7 - Juin 2016</li>
+                <li>es8 - Juin 2017</li>
+                <li>es9 - Juin 2018</li>
+            </ul>
+            <p>
+                Jusqu'en 2010, JS était mal considéré par les développeurs ( peu normé, trop permissif )
+            </p>
+            <p>
+                L'arrivée de Google Chrome, avec en plus l'envie de Google de refaire fonctionner correctement
+                JS.
+                Création du moteur d'interprétation V8.
+                => un boost des capacitées de JS et son éxécution
+            </p>
+            <p>
+                Grâce au V8, des nouveau langages ou méthode de développement sont arrivées, notemment NodeJs
+                (2009),
+                qui s'appuis sur JS mais s'éxécute sur le serveur
+            </p>
+            <p>
+                La convention du code en es6 est visible sur Github
+                <a href="https://github.com/elierotenberg/coding-styles/blob/master/es6.md" target="_blank">
+                    es6
+                </a>
+            </p>
+        </article>
+    </main>
+    <footer>
+        <div class="container">
+            &copy; DAWAN - 07-2023
+        </div>
+    </footer>
+</body>
+
+</html>

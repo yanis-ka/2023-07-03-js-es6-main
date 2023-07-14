@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation JavaScript ES6</title>
+    <link rel="stylesheet" href="../css/bootstrap-icons.css" />
+    <script src="../js/scripts.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script>
+        // avant  es6
+        /*
+        var tableau = new Array('valeur', 1, 13.5);
+        console.table(tableau);
+        console.log(typeof tableau);
+        */
+
+        let tableau = ['valeur', 1, 12, 'Renault'];
+        console.table(tableau);
+        console.log(typeof tableau);
+
+        /* les tableau associatif en utilisant la classe Array "n'existe" pas mais sont réalisables */
+
+        let tabAsso = [];
+        tabAsso['fruit'] = 'cerise';
+        tabAsso['legume'] = 'courgette';
+        console.log(tabAsso);
+
+        let cars = ['Peugeot', 'Citroën', 'Renault'];
+        cars[cars.length] = 'Ford'; // ça marche mais c'est sale donc on fait pas
+        
+        cars.push('Fiat'); // oui car c'est la méthode faîte pour ça pour les tableaux
+        
+        console.log(cars);
+        console.log(cars.length);
+
+        // les tableaux sont des objets itérable : on peut les parcourir avec des boucle (et certaines méthodes associées aux tableaux et aux objets)
+        console.log('----------------- boucles ---------------------');
+        console.log('----------------- boucle for ---------------------');
+        for(let i = 0; i < cars.length; i = i + 1){
+            console.log(cars[i]);
+        }
+        
+        console.log('----------------- boucle for in ---------------------');
+        for(let index in cars){
+            console.log(cars[index]);
+        }
+        
+        /* le for in peut parcourir les object */
+        
+        let obj = {
+            nom: 'Duflot',
+            prenom: 'Nicolas',
+            presentation: function(){
+                return `Bonjour, je m'appelle ${this.prenom} ${this.nom}`;
+            }
+        };
+        
+        console.log(obj);
+        console.log(obj.nom);
+        console.log(obj.prenom);
+        console.log(obj.presentation());
+        
+        for( let key in obj){
+            console.log(`la clef est ${key}, la valeur est ${obj[key]}`);
+        }
+        
+        // depuis es6
+        console.log('----------------- boucle for of ---------------------');
+        for(let value of cars){
+            console.log(`la valeur actuelle dans cars est ${value}`);
+        }
+        
+        console.log('----------------- boucle tant que et faire tant que ---------------------');
+        console.log('----------------- boucle tant que ---------------------');
+        let cpt = 0;
+        while(cpt < cars.length){
+            console.log(cars[cpt]);
+            cpt = cpt + 1;
+        }
+        
+        console.log('----------------- boucle faire tant que ---------------------');
+        cpt = 0;
+        do{
+            console.log(cars[cpt]);
+            cpt = cpt + 1;
+        }while(cpt < cars.length);
+        
+        console.log('----------------- les méthodes de parcours de tableau ---------------------');
+        console.log('----------------- foreach (n\'est pas limité au tableaux, mais s\'applique à tous les objets itérables ) ---------------------');
+
+        cars.forEach(function(valeur, index, tab){
+            console.log('test', valeur, index, tab);
+        });
+
+        let tabTaux = [1.1, 1.5, 1.8];
+        tabTaux.forEach(function(valeur, index, tab){
+            tab[index] = valeur * 23.5;
+        });
+
+        console.log(tabTaux);
+        
+        console.log('----------------- .map() (limité au tableaux) ---------------------');
+        
+        cars.map(function(valeur, index, tab){
+            console.log('test', valeur, index, tab);
+        });
+        
+        let tabTaux2 = [1.1, 1.5, 1.8];
+        tabTaux.map(function(valeur, index, tab){
+            tab[index] = valeur * 23.5;
+        });
+        
+        console.log(tabTaux2);
+        
+        // es6 méthode .entries()
+        /* 
+        vient du modèle objet. extrait les clefs et les valeurs des éléments d'un tableau sous la forme d'un tableau de deux élément : index 0 contient la clef, index 1 contient la valeur
+        */
+        console.log('----------------- .entries() ---------------------');
+        for(let entry of cars.entries()){
+            console.log(entry);
+        }
+
+        cars.push('Hyundai');
+        cars.push('Seat', 'Toyota');
+        console.table(cars);
+
+        // supprimer les valeurs d'un tableau
+        // .pop(), .shift(), .splice()
+        // .pop()   => extrait la dernière valeur du tableau
+        const lastEntry = cars.pop();
+        console.log(lastEntry, cars);
+        
+        // .shift() => extrait la première valeur
+        const firstEntry = cars.shift();
+        console.log(firstEntry, cars);
+        
+        // .splice() utilisation 1 : extraire des valeurs dans le tableau
+        const removed = cars.splice(1, 3);
+        console.log(removed, cars);
+        
+        // .splice() utilisation 2 : remplacer des valeurs dans le tableau
+        const replaced = cars.splice(0, 1, 'Alpine', 'Mazda');
+        console.log(replaced, cars);
+        
+        // .splice() utilisation 3 : inserrer des valeurs dans le tableau
+        cars.splice(1, 0, firstEntry, lastEntry, removed[0], removed[1], removed[2], replaced[0]);
+        console.log(cars);
+
+        //let carsClone = cars;
+        // ici on créer une nouvelle référence au tableau existant : un nom différents pour la même variable
+        let carsClone = cars.slice();
+        console.log(`cars : ${cars}`);
+        console.log(`carsClone : ${carsClone}`);
+        carsClone.pop();
+        console.log(`cars : ${cars}`);
+        console.log(`carsClone : ${carsClone}`);
+        
+        carsClone.reverse();
+        console.log(`carsClone : ${carsClone}`);
+        
+        carsClone.sort();
+        console.log(`carsClone : ${carsClone}`);
+        carsClone.reverse();
+        console.log(`carsClone : ${carsClone}`);
+
+        let tabExemple = '123.5,12,54.3'.split(',');
+        let chaineExemple = [123.5,12,54.3].join(';');
+        console.log(chaineExemple);
+
+        const motTest = 'kayak';
+        let tabMot = motTest.split('');
+        console.log(tabExemple);
+        console.log(tabMot);
+        const motInverse = tabMot.reverse().join('');
+        console.log(motInverse);
+        if(motInverse === motTest){
+            console.log(`${motTest} est un palindrome`);
+        }else{
+            console.log(`${motTest} n'est pas un palindrome`);            
+        }
+
+        // et les tableaux à 2 dimensions ?
+        carsTest = [ ['Fiat', 1996], ['Kya', 1995], ['Kya', 1990], ['Ford', 1950], ['12', '62'] ];
+        console.log(carsTest);
+        console.table(carsTest);
+        carsTest.sort();
+        console.table(carsTest);
+        console.log('-------- parcourir un tableau à "2" dimensions avec for -----');
+        for(let i = 0; i < carsTest.length; i = i + 1){
+            for(let j = 0; j < carsTest[i].length; j = j + 1){
+                console.log(carsTest[i][j]);
+            }
+        }
+        
+        console.log('-------- parcourir un tableau à "2" dimensions avec for of -----');
+        for(let value of carsTest){
+            for(let subValue of value){
+                console.log(subValue);
+            }
+        }
+
+        // trouver un élément du tableau selon une condition
+        console.log('------------- .find() --------------');
+        let arrayNum = [5, 8, 12, 130, 44];
+        
+        const found = arrayNum.find(function(element){
+            /*
+            if(element > 20){
+                return element;
+            }
+            */
+           return element > 20;
+        });
+        
+        console.log(found, typeof found);
+        // trouver toutes les occurences d'un élément correspondant à une condition filter
+        console.log('------------- .filter() --------------');
+        const filtered = arrayNum.filter(function(element){
+            return element > 20;
+        });
+
+        console.log(filtered);
+        /*
+        function(element){
+            return element > 20;
+        }
+
+        (element)=>{
+            return element > 20;
+        }
+
+        element=>{
+            return element > 20;
+        }
+        
+        element=>element > 20
+
+        */
+        
+        const filtered2 = arrayNum.filter(element=>element > 20);
+        console.log(filtered2);
+
+        /* 
+        l'opérateur fleche ou arrow operator sert dans les méthodes d'objet pour éviter de perdre 
+        la référence du this quand des fonctions de rappel sont imbriquées => les conséquences
+        */
+
+        console.log('-------- les consequences -----------------');
+        let monObjet = {
+            numbers: [5, 8, 12, 130, 3, 44],
+            affTab: function(){
+                //console.log(this);
+                //console.log(this.numbers);
+                //let _this = this;
+                this.numbers.map((element)=>{
+                    console.log(this);
+                    //console.log(_this);
+                });
+            }
+        };
+
+        monObjet.affTab();
+        
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="../"><h1>Formation JavaScript ES6</h1></a>
+            <i class="bi bi-list toggle-menu" style="font-size: 2rem;color: white;" data-target="#navPrinc"></i>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <div class="slide-menu" id="navPrinc">
+                <ul class="navigation">
+                    <li>
+                        <details>
+                            <summary>
+                                Introduction
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../introduction/index.html" title="premiers scripts JS" >Intro JS</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/tableaux.html" title="Les tableaux JS JS">Les tableaux</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/fonctions.html" title="Les fonctions JS">Les fonctions</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/destructuration.html" title="La destructuration">La destructuration</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/storage.html" title="Storage">Storage</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                Le DOM
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../dom/index.html" title="Le DOM : Document Object Model">DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dom.html" title="Le DOM : Créer dans le DOM">Créer dans le DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/css.html" title="Le DOM : CSS">DOM & CSS</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dataset.html" title="Le DOM : Les dataset">Dataset</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                AJAX
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../ajax/index.html" title="AJAX : xhr">XHR</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/promesses.html" title="AJAX : Promesses">Promesses</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/bdd.html" title="AJAX : Fetch">Fetch</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/fetchjson.html" title="AJAX : fetch & JSON">JSON</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                POO
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../poo/index.html" title="POO : Programmation Orientée Objet">POO</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/collection.html" title="POO : Les collections">Collections</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/module.html" title="POO : modules">Modules</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/class.html" title="POO : classes">Classes</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container">
+        <article>
+            <h2>Les tableaux</h2>
+            <p>
+                Tout est dans le code et la console
+            </p>
+        </article>
+    </main>
+    <footer>
+        <div class="container">
+            &copy; DAWAN - 07-2023
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation JavaScript ES6</title>
+    <link rel="stylesheet" href="../css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/scripts.js"></script>
+    <script>
+        loaded(function () {
+            /*
+            Collections : dictionnaires ( ou tableaux associatifs)
+            Les "index" de la collections sont en réalité des clefs
+            */
+
+            /* illégal ! */
+            let tabAssoPirate = [];
+            tabAssoPirate['toto'] = 23;
+            tabAssoPirate['titi'] = 24;
+            console.log(tabAssoPirate);
+
+            /* la classe Map() est faîte pour ça ! */
+
+            const map = new Map();
+            console.log(map);
+            map.set('lastName', 'Doe');
+            map.set('firstName', 'Jane')
+                .set('email', 'jane.doe@missing.com')
+                .set('phone', '0123456789')
+                .set('phone', '9876543210')
+                .set('details', 'none');
+                /*.set('', 'truc');*/
+            console.log(map);
+            console.log(map.size);
+            console.log(map.get('lastName'));
+
+            map.forEach(function(value, key, data){
+                console.log(` ${key} => ${value} `);
+            });
+
+            console.log(map.has('email'));
+            console.log(map.has(''));
+            if(map.has('email')){
+                console.log(`l'email est ${map.get('email')}`);
+            }else{
+                console.log('l\'email n\'est pas enregistré');
+            }
+            
+            if(map.has('street')){
+                console.log(`street est ${map.get('street')}`);
+            }else{
+                console.log('street n\'est pas enregistré');
+            }
+
+            /* 
+            Map produit un objet itérable, c'est à dire qu'elle contient ce qu'on appelle un "design pattern" iterator 
+            iterator permet de parcourir les données de l'objet comme s'il s'agissait d'un tableau
+            */
+
+            /* 
+            .entries()      => un for sur les clefs et valeurs du Map
+            .keys()         => un for sur les clefs du Map
+            .values()       => un for sur les valeurs du Map
+            */
+
+            //console.log( `|${'0123456789'.padEnd(20, '@')}|` );
+            //console.log( `|${'0123456789'.padStart(20, '@')}|` );
+            console.log( `|${'KEY'.padEnd(20, ' ')}|${'VALUE'.padStart(24, ' ')}|` );
+            console.log( `|${''.padEnd(20, '-')}|${''.padStart(24, '-')}|` );
+            for( let [key, value] of map.entries() ){
+                console.log( `|${key.padEnd(20, ' ')}|${value.padStart(24, ' ')}|` );
+            }
+            console.log( `|${''.padEnd(20, '-')}|${''.padStart(24, '-')}|` );
+            for( let key of map.keys() ){
+                console.log( `|${key.padEnd(20, ' ')}|${'****'.padStart(24, ' ')}|` );
+            }
+            console.log( `|${''.padEnd(20, '-')}|${''.padStart(24, '-')}|` );
+            for( let value of map.values() ){
+                console.log( `|${'****'.padEnd(20, ' ')}|${value.padStart(24, ' ')}|` );
+            }
+            console.log( `|${''.padEnd(20, '-')}|${''.padStart(24, '-')}|` );
+
+            map.delete('phone');
+            console.log(map);
+            map.clear();
+            console.log(map);
+
+            /*
+            Collection : tableau a vlaeur unique => pas d'indice ni de clefs
+            classe Set();
+            */
+
+            const set = new Set(['Jon', 'Aria']);
+            console.log(set);
+            set.add('Sansa')
+                .add('Rob')
+                .add('Joffrey')
+                .add('Sansa')
+                .add('Hodor')
+                .add('Brandon')
+                .add('Oona');
+            
+            console.log(set);
+            /* 
+            dans un Set(), la valeur est aussi la clef (ou la clef est aussi la valeur)
+            */
+            console.log( `|${'KEY'.padEnd(20, ' ')}|${'VALUE'.padStart(24, ' ')}|` );
+            console.log( `|${''.padEnd(20, '-')}|${''.padStart(24, '-')}|` );
+            for( let [key, value] of set.entries() ){
+                console.log( `|${key.padEnd(20, ' ')}|${value.padStart(24, ' ')}|` );
+            }
+            console.log( `|${''.padEnd(20, '-')}|${''.padStart(24, '-')}|` );
+            for( let key of set.keys() ){
+                console.log( `|${key.padEnd(20, ' ')}|${'****'.padStart(24, ' ')}|` );
+            }
+            console.log( `|${''.padEnd(20, '-')}|${''.padStart(24, '-')}|` );
+            for( let value of set.values() ){
+                console.log( `|${'****'.padEnd(20, ' ')}|${value.padStart(24, ' ')}|` );
+            }
+            console.log( `|${''.padEnd(20, '-')}|${''.padStart(24, '-')}|` );
+
+            set.delete('Joffrey');
+
+            if(!set.has('Joffrey')){
+                console.log('Youpi c\'était un méchant');
+            }
+
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="../">
+                <h1>Formation JavaScript ES6</h1>
+            </a>
+            <i class="bi bi-list toggle-menu" style="font-size: 2rem;color: white;" data-target="#navPrinc"></i>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <div class="slide-menu" id="navPrinc">
+                <ul class="navigation">
+                    <li>
+                        <details>
+                            <summary>
+                                Introduction
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../introduction/index.html" title="premiers scripts JS">Intro JS</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/tableaux.html" title="Les tableaux JS JS">Les tableaux</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/fonctions.html" title="Les fonctions JS">Les fonctions</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/destructuration.html" title="La destructuration">La
+                                        destructuration</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/storage.html" title="Storage">Storage</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                Le DOM
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../dom/index.html" title="Le DOM : Document Object Model">DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dom.html" title="Le DOM : Créer dans le DOM">Créer dans le DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/css.html" title="Le DOM : CSS">DOM & CSS</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dataset.html" title="Le DOM : Les dataset">Dataset</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                AJAX
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../ajax/index.html" title="AJAX : xhr">XHR</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/promesses.html" title="AJAX : Promesses">Promesses</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/bdd.html" title="AJAX : Fetch">Fetch</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/fetchjson.html" title="AJAX : fetch & JSON">JSON</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                POO
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../poo/index.html" title="POO : Programmation Orientée Objet">POO</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/collection.html" title="POO : Les collections">Collections</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/module.html" title="POO : modules">Modules</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/class.html" title="POO : classes">Classes</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container">
+        <section class="row">
+            <article class="col-100">
+                <h2>POO : Les collections</h2>
+                <p>
+                    Les collections sont des structures - objets - proches des tableaux
+                    mais qu'on manipule comme des objets
+                </p>
+                <p>
+                    Tout est dans le code et la console
+                </p>
+            </article>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            &copy; DAWAN - 07-2023
+        </div>
+    </footer>
+</body>
+
+</html>

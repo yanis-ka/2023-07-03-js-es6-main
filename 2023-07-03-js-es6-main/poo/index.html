@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation JavaScript ES6</title>
+    <link rel="stylesheet" href="../css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/scripts.js"></script>
+    <script>
+        loaded(function () {
+            /*
+            un objet est composée d'au moins un attribut ou clef, qui contient une valeur ou une méthode
+            méthode : c'est une fonction qui est utilisable seulement depuis une instance de classe 
+                => donc d'un objet créé à partir de cette classe ou d'un objet litéral
+            objet litéral
+            objet litéral : depuis ES */
+
+            const monObjet = {
+                attribut: 'valeur',
+                methode: function () {
+                    const message = `${this.attribut} OK`;
+                    return message;
+                }
+            };
+
+            console.log(monObjet.attribut);
+            console.log(monObjet.methode);
+            console.log(monObjet.methode());
+
+            /* les objets sont prototypés => il possède un constructeur qui crée l'instance de la classe dans l'objet
+            pour créer un prototype, il faut un constructeur */
+
+            function Humain(nom, prenom, age) {
+                this.nom = nom;
+                this.prenom = prenom;
+                this.age = age;
+                this.esperanceDeVie = this.age + Math.floor( Math.random() * 30 + 10 );
+            }
+
+            /* l'objet peut avoir ensuite des méthodes qui ne seront pour l'instant utilisable qu'en passant par une instance du prototype */
+            Humain.prototype.monNom = function () {
+                return `Je suis ${this.prenom} ${this.nom}`;
+            }
+
+            /* 
+            Tous les humains vont crier quand ils ont mal par exemple 
+            Il n'est donc pas nécessaire de l'associer à une instance d'un constructeur,
+            on créer ce qui s'appelle une méthode statique, elle peut être utilisée directement en appelant le constructeur
+            */
+
+            Humain.crier = function (cri = '') {
+                return `${cri} RRRRRRRRRRRRRRRR !`;
+            }
+
+            const mon1erHumain = new Humain('Le sage', 'Craö', 42);
+            console.log(mon1erHumain);
+            console.log(mon1erHumain.nom);
+            console.log(mon1erHumain.esperanceDeVie);
+            console.log(mon1erHumain.monNom());
+            console.log(Humain.crier());
+            console.log(Humain.crier('Par crom !'));
+
+            /* 
+            EN JSON 
+            Il est possible de créer un objet litéral avec la syntaxe JSON
+            */
+
+            const monUser = {
+                'id': 1,
+                'name': 'Toto',
+                'action': function () {
+                    return 'TAPER !';
+                }
+            };
+
+            console.log(monUser);
+            console.log(monUser.name);
+            console.log(monUser.action());
+
+            /* 
+            utiliser class 
+            création de classes avec class est apparue en ES6
+            Pour l'instant, contrairement à d'autre langages de programation objet (C++, Java),
+            il n'y a pas encore moyen de privatiser les attributs et méthodes
+            On utilise une convention d'écriture pour signifier par exemple qu'un attribut est sensé être privé
+            */
+            /* on crée une classe qui regroupe les éléments de création d'un objet et de ses méthodes */
+            class Voiture{
+                constructor(marque, modele, couleur){
+                    /* si je veux signifier que cet attribut doit être considéré comme privé */
+                    this._marque = marque; 
+                    /* ATTENTION : l'attribut n'est pas réellement privé */
+                    this.modele = modele;
+                    this.couleur = couleur;
+                }
+                /* 
+                si un attribut est privé,  il doit, pour pouvoir être modifié ou lu, être appelé ou modifié par des méthodes particulières
+                les getter et setter
+                */
+
+                /* un getter */
+                get getMarque(){
+                    return this._marque;
+                }
+
+                /* un setter */
+                set setMarque(marque){
+                    this._marque = marque;
+                }
+
+                demarrer(){
+                    return `la ${this.constructor.name} démarre`;
+                }
+
+                avancer(){
+                    return `la ${this.constructor.name} avance`;
+                }
+
+                /* Méthode statique */
+                static klaxonner(){
+                    return 'POUUUUUET POUUUUEEET !';
+                }
+            }
+
+            console.log(Voiture.klaxonner());
+
+            const maVoiture = new Voiture('Renault', 'Twingo', 'Vert poubelle');
+            console.log(maVoiture);
+            console.log(maVoiture.constructor.name);
+            console.log(maVoiture.demarrer());
+            console.log(maVoiture.avancer());
+
+            /* je veux créer une ambulance 
+            un ambulance est une voiture, en revanche une voiture n'est pas forcément une ambulance.
+            Donc la classe parent est Voiture, ambulance est une classe enfant, 
+            qui dit enfant dit héritage des caractéristique de la classe mère
+            */
+            class Ambulance extends Voiture{
+                /* bien que ce soit une classe fille de Voiture, Ambulance a quand même besoin d'un constructeur */
+                constructor(marque, modele, couleur){
+                    super(marque, modele, couleur);
+                    if(this.couleur !== 'Blanc'){
+                        this.couleur = 'Blanc';
+                    }
+                    this.sirene = false;
+                }
+
+                /* on peut surcharger et / ou redéfinir le comportement d'une méthode de la classe mère */
+                demarrer(){
+                    let bruit = '';
+                    bruit = (this.sirene)? 'PIN PON PIN PON PIN ! ': 'Vrrrrr rrr rrrrr';
+                    return `${ super.demarrer() } ${bruit}`;
+                }
+
+                static klaxonner(){
+                    return 'POUET !';
+                }
+
+            }
+
+            const monAmbulance = new Ambulance('Citroën', 'DS break', 'Rouge');
+            console.log(monAmbulance);
+            console.log(monAmbulance.demarrer());
+            console.log(monAmbulance.avancer());
+            console.log(Ambulance.klaxonner());
+            monAmbulance.sirene = true;
+            console.log(monAmbulance.demarrer());
+
+            /* mini exo sur les classes */
+
+            /* créer une classe mère 
+            Compte 
+                nom 
+                prenom
+                solde
+
+                retirer de l'argent
+                ajouter de l'argent
+            
+            une classe fille CompteInteret
+                nom 
+                prenom
+                solde
+                tauxInteret
+
+                retirer de l'argent
+                ajouter de l'argent
+
+            une classe fille CompteCourant
+                nom 
+                prenom
+                solde
+
+                retirer de l'argent
+                ajouter de l'argent
+                payer avec la carte
+            */
+
+            class Compte{
+                constructor(nom, prenom, solde){
+                    this.nom = nom;
+                    this.prenom = prenom;
+                    this.solde = solde;
+                }
+
+                retirerDeLArgent(montant){
+                    this.solde = this.solde - montant;
+                    return `${montant} € retiré(s), solde ${ (this.solde >= 0)? 'crediteur': 'débiteur' } : ${this.solde}€`;
+                }
+
+                ajouterDeLArgent(montant){
+                    this.solde = this.solde + montant;
+                    return `${montant} € ajouté(s), solde ${ (this.solde >= 0)? 'crediteur': 'débiteur' } : ${this.solde}€`;
+                }
+            }
+
+            class CompteInteret extends Compte{
+                constructor(nom, prenom, solde, tauxInteret){
+                    super(nom, prenom, solde);
+                    this.tauxInteret = tauxInteret;
+                }
+
+                calculerInterets(){
+                    return parseFloat(((this.tauxInteret - 1) * this.solde).toFixed(2), 2);
+                }
+
+                crediterInteret(){
+                    return parseFloat(this.solde = this.solde + this.calculerInterets(), 2);
+                }
+            }
+
+            class CompteCourant extends Compte{
+                constructor(nom, prenom, solde, codePin){
+                    super(nom, prenom, solde);
+                    this._codePin = codePin;
+                }
+
+                get getCodePin(){
+                    return this._codePin;
+                }
+
+                payerParCarte(montant, codePin){
+                    if(this.getCodePin === codePin){
+                        return `Un paiement de ${montant} € a été effectué par carte.\n${this.retirerDeLArgent(montant)}`;
+                    }else{
+                        return `Une tentative de paiement par carte de ${montant} € a échoué`;
+                    }
+                }
+            }
+
+            const unCompte = new Compte('Duflot', 'Nicolas', 1500);
+            console.log(unCompte);
+            console.log(unCompte.solde);
+            console.log(unCompte.retirerDeLArgent(200));
+            console.log(unCompte.retirerDeLArgent(2000));
+            console.log(unCompte.ajouterDeLArgent(200));
+            console.log(unCompte.ajouterDeLArgent(2000));
+            
+            const unCompteInteret = new CompteInteret('Duflot', 'Nicolas', 1500.3, 1.015);
+            console.log(unCompteInteret);
+            console.log(unCompteInteret.solde);
+            console.log(unCompteInteret.tauxInteret);
+            console.log(unCompteInteret.retirerDeLArgent(200));
+            console.log(unCompteInteret.retirerDeLArgent(2000));
+            console.log(unCompteInteret.ajouterDeLArgent(200));
+            console.log(unCompteInteret.ajouterDeLArgent(2000));
+            console.log(unCompteInteret.calculerInterets());
+            console.log(unCompteInteret.crediterInteret());
+
+            const unCompteCourant = new CompteCourant('Duflot', 'Nicolas', 1500, 1234);
+            console.log(unCompteCourant);
+            console.log(unCompteCourant.solde);
+            console.log(unCompteCourant.getCodePin);
+            console.log(unCompteCourant.retirerDeLArgent(200));
+            console.log(unCompteCourant.retirerDeLArgent(2000));
+            console.log(unCompteCourant.ajouterDeLArgent(200));
+            console.log(unCompteCourant.ajouterDeLArgent(2000));
+            console.log(unCompteCourant.payerParCarte(200, 134));
+            console.log(unCompteCourant.payerParCarte(202, 1234));
+            console.log(unCompteCourant.payerParCarte(2000, 1234));
+
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="../">
+                <h1>Formation JavaScript ES6</h1>
+            </a>
+            <i class="bi bi-list toggle-menu" style="font-size: 2rem;color: white;" data-target="#navPrinc"></i>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <div class="slide-menu" id="navPrinc">
+                <ul class="navigation">
+                    <li>
+                        <details>
+                            <summary>
+                                Introduction
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../introduction/index.html" title="premiers scripts JS">Intro JS</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/tableaux.html" title="Les tableaux JS JS">Les tableaux</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/fonctions.html" title="Les fonctions JS">Les fonctions</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/destructuration.html" title="La destructuration">La
+                                        destructuration</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/storage.html" title="Storage">Storage</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                Le DOM
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../dom/index.html" title="Le DOM : Document Object Model">DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dom.html" title="Le DOM : Créer dans le DOM">Créer dans le DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/css.html" title="Le DOM : CSS">DOM & CSS</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dataset.html" title="Le DOM : Les dataset">Dataset</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                AJAX
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../ajax/index.html" title="AJAX : xhr">XHR</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/promesses.html" title="AJAX : Promesses">Promesses</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/bdd.html" title="AJAX : Fetch">Fetch</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/fetchjson.html" title="AJAX : fetch & JSON">JSON</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                POO
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../poo/index.html" title="POO : Programmation Orientée Objet">POO</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/collection.html" title="POO : Les collections">Collections</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/module.html" title="POO : modules">Modules</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/class.html" title="POO : classes">Classes</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container">
+        <section class="row">
+            <article class="col-100">
+                <h2>POO : Programmation Orientée Objet</h2>
+                <p>
+                    Tout est dans le code et la console
+                </p>
+            </article>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            &copy; DAWAN - 07-2023
+        </div>
+    </footer>
+</body>
+
+</html>

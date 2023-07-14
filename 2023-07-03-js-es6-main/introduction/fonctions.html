@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation JavaScript ES6</title>
+    <link rel="stylesheet" href="../css/bootstrap-icons.css" />
+    <script src="../js/scripts.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script>
+        function circo(rayon){
+            let circonference = 0;
+            circonference = 2 * Math.PI * rayon;
+            return circonference;
+        }
+
+        console.log(circo(2));
+        console.log(circo(5));
+
+        /* 
+        ...  => rest parameter => spread parameter => opérateur variadique
+        function test(...valeur){
+            // valeurs devient un tableau
+        }
+
+        test(45, 'ret', 13);
+            => [45, 'ret', 13]
+        */
+
+        function addition(...valeurs){
+            let res = 0;
+            for(let nombre of valeurs){
+                if( !isNaN(nombre) ){
+                    res = res + parseFloat(nombre);
+                }
+            }
+            return res;
+        }
+
+        console.log(addition(1,2,'3',4,5, 'test',6,7,8,9));
+
+        // fonction de callback ou fonction de rappel ou fonction anonyme
+
+        const maFonctionAnonyme = function(name = null){
+            /* un if simple peut être écrit en "raccourci", en utilisant la forme ternaire  */
+            /*
+            
+            variable = (condition)?  résultat si la condition est respectée : résultat si la condition n'est pas respectée;
+            
+            */
+           /*
+            if(name === null){
+                return 'Hello Kitty';
+            }else{
+                return `Hello ${name}`;
+            }
+            */
+            const res = (name === null )? 'Kitty' : name;
+
+            return `Hello ${res}`;
+        };
+
+        console.log(maFonctionAnonyme());
+        console.log(maFonctionAnonyme('Dolly'));
+
+        /* 
+        fonction auto-exécutée 
+        ( la fonction de rappel avec ou sans paramètre )( les paramètre s'il y en a de la fonction de rappel );
+        */
+
+        (
+            function(name){
+                console.log(`Coucou ${name}`);
+            }
+        )('Nicolas');
+
+        /*
+        exercice
+        
+        créer une fonction qui va parcourir un tableau de données tableauDeFruits 
+        et renvoyer une liste des doublons dans le tableau tableauxDoublons
+
+        Pensez a utiliser .map()
+
+        le fruit :  est présent x fois
+
+        */
+
+        let tableauDeFruits = [
+            'banane',
+            'tomate',
+            'pêche',
+            'banane',
+            'tomate',
+            'banane',
+            'fraise',
+            'tomate',
+            'pêche',
+            'banane',
+            'tomate'
+        ];
+
+        let tableauxDoublons = [];
+        
+        tableauDeFruits.sort();
+        console.log(tableauDeFruits);
+        let tabTemp = [];
+
+        let cptFruit = 1;
+
+        tableauDeFruits.map(function(element, index, tab){
+            if(element === tab[index+1]){
+                cptFruit = cptFruit + 1;    
+            }else{
+                if(cptFruit > 1){
+                    tableauxDoublons.push(`le fruit : ${element} est présent ${cptFruit} fois`)
+                }
+                cptFruit = 1;
+                tabTemp.push(element);
+            }
+        });
+
+        console.log(tableauxDoublons);
+        console.log(tabTemp);
+        /* maintenant on n'écrit dans tableauDeFruitsles fruits une seule fois */
+        //tableauDeFruits.splice(0);
+        tableauDeFruits = []; // ça marche aussi
+        tableauDeFruits = tabTemp.slice();
+        console.log(tableauDeFruits);
+
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="../"><h1>Formation JavaScript ES6</h1></a>
+            <i class="bi bi-list toggle-menu" style="font-size: 2rem;color: white;" data-target="#navPrinc"></i>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <div class="slide-menu" id="navPrinc">
+                <ul class="navigation">
+                    <li>
+                        <details>
+                            <summary>
+                                Introduction
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../introduction/index.html" title="premiers scripts JS" >Intro JS</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/tableaux.html" title="Les tableaux JS JS">Les tableaux</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/fonctions.html" title="Les fonctions JS">Les fonctions</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/destructuration.html" title="La destructuration">La destructuration</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/storage.html" title="Storage">Storage</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                Le DOM
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../dom/index.html" title="Le DOM : Document Object Model">DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dom.html" title="Le DOM : Créer dans le DOM">Créer dans le DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/css.html" title="Le DOM : CSS">DOM & CSS</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dataset.html" title="Le DOM : Les dataset">Dataset</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                AJAX
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../ajax/index.html" title="AJAX : xhr">XHR</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/promesses.html" title="AJAX : Promesses">Promesses</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/bdd.html" title="AJAX : Fetch">Fetch</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/fetchjson.html" title="AJAX : fetch & JSON">JSON</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                POO
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../poo/index.html" title="POO : Programmation Orientée Objet">POO</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/collection.html" title="POO : Les collections">Collections</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/module.html" title="POO : modules">Modules</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/class.html" title="POO : classes">Classes</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container">
+        <article>
+            <h2>Les fonctions</h2>
+            <p>
+                Tout est dans le code et la console
+            </p>
+        </article>
+    </main>
+    <footer>
+        <div class="container">
+            &copy; DAWAN - 07-2023
+        </div>
+    </footer>
+</body>
+</html>

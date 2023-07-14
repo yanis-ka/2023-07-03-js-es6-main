@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation JavaScript ES6</title>
+    <link rel="stylesheet" href="../css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/scripts.js"></script>
+    <script>
+
+        function addItemList(item){
+            if(item.value !== ''){
+                /*
+                on peut transformer une collection d'éléments HTML en un tableau des ces éléments,
+                en utilisant la méthode statique .from() de la classe Array
+                let unTableau = Array.from(<collection d'éléments HTML>);
+                */
+                const tabLi = Array.from(q('#toDoList').children);
+                if ( tabLi.map((c)=>c.textContent.toLowerCase() ).includes(item.value.toLowerCase())) {
+                    /* 
+                    on parcours tous les éléments li, à chaque élément on vérifie s'il contient le même contenu texte en minuscule que le texte en minuscule inscrit dans le champs de formulaire
+                    */
+                    item.value = '';
+                    item.focus();
+                    return;
+                }
+                const li = document.createElement('li');
+                const content = document.createTextNode(item.value);
+                li.addEventListener('click', function(){
+                    /* si un élément li qu'on va supprimer est le dernier de la liste, on retire la classe qui stylise la iste à son élément parent */
+                    if(this.parentElement.children.length === 1){
+                        /* 
+                        this est l'élément cliqué, 
+                        parentElement dirige vers sont élément parent, 
+                        children est la collection d'éléments enfants du parent, 
+                        length est le nombre d'éléments enfant du parent
+                        si l'élément cliqué pour la suppression est le seul (length === 1) 
+                        c'est le dernier donc on retire la classe de style du parent avec de .remove() l'élément */
+                        q('#toDoList').classList.remove('toDoList');
+                    }
+                    this.remove();
+                });
+                li.appendChild(content);
+                q('#toDoList').appendChild(li);
+                q('#toDoList').classList.add('toDoList');
+                item.value = '';
+            }
+            item.focus();
+        }
+        
+        loaded(function(){
+            let nbSpan = 1;
+
+            q('#addSpan').addEventListener('click', function(){
+                const testSpan = document.createElement('span');
+                testSpan.classList.add('testSpan');
+                const content = document.createTextNode(`test span n°${nbSpan}`);
+                nbSpan = nbSpan + 1;
+                testSpan.appendChild(content);
+                testSpan.addEventListener('click', function(){
+                    this.remove();
+                });
+                q('#test').appendChild(testSpan);
+            });
+
+            q('#addItem').addEventListener('click', ()=>addItemList(q('#listItem')));
+
+            q('#listItem').addEventListener('keyup', (event)=>{
+                if(event.key === 'Enter'){
+                    addItemList(q('#listItem'));
+                }
+            });
+
+            /* preventDefault demo */
+
+            qA('a.testPreventLink').forEach((link)=>{
+                link.addEventListener('click', function(event){
+                    event.preventDefault();
+                    console.log(link.getAttribute('id'));
+                });
+            });
+
+            q('#formValid button[type="submit"]').addEventListener('click', function(event){
+                event.preventDefault();
+                /* soumettre le formulaire si et seulement si nom et prénom sont remplis */
+                const inputNom = q('#formValid input[name=nom]');
+                const inputPrenom = q('#formValid input[name=prenom]');
+                /* si les deux champs sont remplis : soumission du formulaire .submit() */
+                if(inputNom.value !== '' && inputPrenom.value !== '' ){
+                    q('.alertFormValid').classList.add('hidden');
+                    q('#formValid').submit();
+                }else{
+                    /* si un ou les deux champs sont vides */
+                    /* on enlève la classe qui cache le message indiquant que des informations sont manquantes */
+                    q('.alertFormValid').classList.remove('hidden');
+                    /* on récupère les inputs dans une collection */
+                    const inputList = qA('#formValid input');
+                    //console.log(inputList);
+                    inputList.forEach(input=>{
+                        /* on vérifie chaque input */
+                        if(input.value === ''){
+                            /* si la valeur est vide, on ajoute à l'input la classe alertInput qui change la couleur de la bordure */
+                            input.classList.add('alertInput');
+                        }else{
+                            /* sinon on enlève la classe */
+                            input.classList.remove('alertInput');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="../">
+                <h1>Formation JavaScript ES6</h1>
+            </a>
+            <i class="bi bi-list toggle-menu" style="font-size: 2rem;color: white;" data-target="#navPrinc"></i>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <div class="slide-menu" id="navPrinc">
+                <ul class="navigation">
+                    <li>
+                        <details>
+                            <summary>
+                                Introduction
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../introduction/index.html" title="premiers scripts JS">Intro JS</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/tableaux.html" title="Les tableaux JS JS">Les tableaux</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/fonctions.html" title="Les fonctions JS">Les fonctions</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/destructuration.html" title="La destructuration">La
+                                        destructuration</a>
+                                </li>
+                                <li>
+                                    <a href="../introduction/storage.html" title="Storage">Storage</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                Le DOM
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../dom/index.html" title="Le DOM : Document Object Model">DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dom.html" title="Le DOM : Créer dans le DOM">Créer dans le DOM</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/css.html" title="Le DOM : CSS">DOM & CSS</a>
+                                </li>
+                                <li>
+                                    <a href="../dom/dataset.html" title="Le DOM : Les dataset">Dataset</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                AJAX
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../ajax/index.html" title="AJAX : xhr">XHR</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/promesses.html" title="AJAX : Promesses">Promesses</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/bdd.html" title="AJAX : Fetch">Fetch</a>
+                                </li>
+                                <li>
+                                    <a href="../ajax/fetchjson.html" title="AJAX : fetch & JSON">JSON</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>
+                                POO
+                            </summary>
+                            <ul class="navigation">
+                                <li>
+                                    <a href="../poo/index.html" title="POO : Programmation Orientée Objet">POO</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/collection.html" title="POO : Les collections">Collections</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/module.html" title="POO : modules">Modules</a>
+                                </li>
+                                <li>
+                                    <a href="../poo/class.html" title="POO : classes">Classes</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container">
+        <section class="row">
+            <article class="col-100">
+                <h2>Créer dans le DOM</h2>
+                <p>
+                    <button id="addSpan">
+                        Ajouter un span dans le paragraphe.
+                    </button>
+                </p>
+                <p id="test">
+
+                </p>
+            </article>
+            <article class="col-50">
+                <h2>To do list</h2>
+                <p>
+                    On écrit un élément de la liste dans le champ, on clique sur "ajouter". Un élément li est ajouté, si on clique dessus il est supprimé. 
+                    Quand on ajoute un élément, on véifie que le champ n'est pas vide, une fois ajouté le champs est vidé.
+                </p>
+                <input type="text" id="listItem" />
+                <button id="addItem">Ajouter</button>
+            </article>
+            <article class="col-50">
+                <h2>Ma liste</h2>
+                <div id="liste">
+                    <ul id="toDoList">
+
+                    </ul>
+                </div>
+            </article>
+            <article class="col-100">
+                <h2>PreventDefault()</h2>
+                <p>
+                    <a href="#" id="toto" class="testPreventLink">toto</a> 
+                    <a href="#" id="tata" class="testPreventLink">tata</a> 
+                    <a href="#" id="titi" class="testPreventLink">titi</a> 
+                </p>
+                <h3>Exemple sur un formulaire</h3>
+                <form id="formValid">
+                    <div class="alertFormValid hidden">
+                        Des informations sont manquantes
+                    </div>
+                    <fieldset>
+                        <legend>Civilité</legend>
+                        <p>
+                            <label>Nom : </label>
+                            <input type="text" name="nom" />
+                        </p>
+                        <p>
+                            <label>Prénom : </label>
+                            <input type="text" name="prenom" />
+                        </p>
+                        <p>
+                            <button type="submit">
+                                Soumettre
+                            </button>
+                            <button type="reset">
+                                Vider le formulaire
+                            </button>
+                        </p>
+                    </fieldset>
+                </form>
+            </article>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            &copy; DAWAN - 07-2023
+        </div>
+    </footer>
+</body>
+</html>
